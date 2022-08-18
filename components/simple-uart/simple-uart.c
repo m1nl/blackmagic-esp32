@@ -46,7 +46,7 @@ static void simple_uart_init_pins(uint8_t uart_num, int tx_pin_num, int rx_pin_n
         gpio_hal_iomux_func_sel(GPIO_PIN_MUX_REG[tx_pin_num], PIN_FUNC_GPIO);
         gpio_set_level(tx_pin_num, 1);
         esp_rom_gpio_connect_out_signal(
-            tx_pin_num, UART_PERIPH_SIGNAL(uart_num, SOC_UART_TX_PIN_IDX), 0, 0);
+            tx_pin_num, uart_periph_signal[uart_num].tx_sig, 0, 0);
     }
 
     if(rx_pin_num >= 0) {
@@ -54,7 +54,7 @@ static void simple_uart_init_pins(uint8_t uart_num, int tx_pin_num, int rx_pin_n
         gpio_set_pull_mode(rx_pin_num, GPIO_PULLUP_ONLY);
         gpio_set_direction(rx_pin_num, GPIO_MODE_INPUT);
         esp_rom_gpio_connect_in_signal(
-            rx_pin_num, UART_PERIPH_SIGNAL(uart_num, SOC_UART_RX_PIN_IDX), 0);
+            rx_pin_num, uart_periph_signal[uart_num].rx_sig, 0);
     }
 }
 

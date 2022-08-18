@@ -55,6 +55,7 @@ set(BM_TARGETS
     ${BM_DIR}/src/target/samd.c
     ${BM_DIR}/src/target/stm32f4.c
     ${BM_DIR}/src/target/stm32l0.c
+    ${BM_DIR}/src/target/ch32f1.c
     ${BM_DIR}/src/target/target.c
 )
 

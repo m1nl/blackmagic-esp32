@@ -3,7 +3,6 @@
 #include "cli-commands.h"
 #include "helpers.h"
 #include <gdb-glue.h>
-#include <esp_mac.h>
 #include <esp_system.h>
 
 void cli_device_info(Cli* cli, mstring_t* args) {
@@ -61,21 +60,6 @@ void cli_device_info(Cli* cli, mstring_t* args) {
         cli_write_eol(cli);
     }
 
-    if(esp_read_mac(mac_addr, ESP_MAC_IEEE802154) == ESP_OK) {
-        cli_printf(
-            cli,
-            "mac_IEEE802154:          %02x%02x%02x%02x%02x%02x%02x%02x",
-            mac_addr[0],
-            mac_addr[1],
-            mac_addr[2],
-            mac_addr[3],
-            mac_addr[4],
-            mac_addr[5],
-            mac_addr[6],
-            mac_addr[7]);
-        cli_write_eol(cli);
-    }
-
     cli_printf(cli, "idf_version:             %s", IDF_VER);
     cli_write_eol(cli);
 
@@ -106,9 +90,6 @@ void cli_device_info(Cli* cli, mstring_t* args) {
         break;
     case CHIP_ESP32S2:
         cli_write_str(cli, "ESP32-S2");
-        break;
-    case CHIP_ESP32H2:
-        cli_write_str(cli, "ESP32-H2");
         break;
     case CHIP_ESP32S3:
         cli_write_str(cli, "ESP32-S3");
@@ -151,9 +132,4 @@ void cli_device_info(Cli* cli, mstring_t* args) {
         "chip_feature_bt:         %s",
         (chip_info.features & CHIP_FEATURE_BT) ? "true" : "false");
     cli_write_eol(cli);
-
-    cli_printf(
-        cli,
-        "chip_feature_IEEE802154: %s",
-        (chip_info.features & CHIP_FEATURE_IEEE802154) ? "true" : "false");
 }

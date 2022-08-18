@@ -8,9 +8,9 @@
 #include <freertos/task.h>
 #include <freertos/stream_buffer.h>
 
-#define CLI_UART_PORT_NUM UART_NUM_1
-#define CLI_UART_TXD_PIN (17)
-#define CLI_UART_RXD_PIN (18)
+#define CLI_UART_PORT_NUM UART_NUM_0
+#define CLI_UART_TXD_PIN (1)
+#define CLI_UART_RXD_PIN (3)
 #define CLI_UART_BAUD_RATE (115200)
 #define CLI_UART_TX_BUF_SIZE (64)
 #define CLI_UART_RX_BUF_SIZE (64)

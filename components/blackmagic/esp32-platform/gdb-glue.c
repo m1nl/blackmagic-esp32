@@ -23,9 +23,6 @@ static GDBGlue gdb_glue;
 bool network_gdb_connected(void);
 void network_gdb_send(uint8_t* buffer, size_t size);
 
-/* USB-CDC */
-void usb_cdc_gdb_tx_char(uint8_t c, bool flush);
-
 size_t gdb_glue_get_free_size(void) {
     return xStreamBufferSpacesAvailable(gdb_glue.rx_stream);
 }
@@ -92,8 +89,5 @@ void gdb_if_putchar(unsigned char c, int flush) {
             network_gdb_send(gdb_glue.tx_buffer, gdb_glue.tx_buffer_index);
             gdb_glue.tx_buffer_index = 0;
         }
-    } else {
-        // Not sure why, but I could not get it to work with buffer
-        usb_cdc_gdb_tx_char(c, flush);
     }
 }

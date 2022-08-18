@@ -4,7 +4,6 @@
 #include <freertos/task.h>
 #include <rom/ets_sys.h>
 
-#include "usb-cdc.h"
 #include "nvs.h"
 #include "gdb_main.h"
 #include "led.h"
@@ -17,7 +16,6 @@
 #include "factory-reset-service.h"
 
 #include <gdb-glue.h>
-#include <soft-uart-log.h>
 
 static const char* TAG = "main";
 
@@ -49,9 +47,6 @@ void pins_init() {
 }
 
 void app_main(void) {
-    // Software UART logging at pin 7, 57600 baud
-    soft_uart_log_init(7, 57600);
-
     ESP_LOGI(TAG, "start");
 
     factory_reset_service_init();
@@ -67,7 +62,6 @@ void app_main(void) {
     // network_uart_server_init();
     network_gdb_server_init();
 
-    usb_cdc_init();
     cli_uart_init();
 
     // TODO uart and i2c share the same pins, need switching mechanics

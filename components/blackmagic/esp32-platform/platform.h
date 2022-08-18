@@ -14,7 +14,7 @@ void led_set_red(uint8_t value);
 void led_set_green(uint8_t value);
 void led_set_blue(uint8_t value);
 
-#define PLATFORM_IDENT "ESP32-S2"
+#define PLATFORM_IDENT "ESP32"
 
 #define NO_USB_PLEASE
 
@@ -37,8 +37,8 @@ void led_set_blue(uint8_t value);
 
 // ON ESP32 we dont have the PORTS, this is dummy value until code is corrected
 #define SWCLK_PORT (0)
-#define SWCLK_PIN (1)
-#define SWDIO_PIN (2)
+#define SWCLK_PIN (25)
+#define SWDIO_PIN (26)
 
 #if SWDIO_PIN >= 32 || SWCLK_PIN >= 32
 #error To support pins greater than 31, change the platform_gpio functions

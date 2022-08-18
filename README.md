@@ -1,12 +1,12 @@
-# Black Magic Probe for ESP32-S2
+# Black Magic Probe for ESP32
 
-WiFi/USB capable version of the famous Black Magic Probe debugger.
+WiFi/USB capable version of the famous Black Magic Probe debugger. Based on firmware for [Flipper Zero WiFi dev board](https://github.com/flipperdevices/blackmagic-esp32-s2).
 
 # Clone the Repository
 
 Clone the repository with:
 ```shell
-git clone --recursive https://github.com/flipperdevices/blackmagic-esp32-s2.git
+git clone --recursive https://github.com/m1nl/blackmagic-esp32.git
 ```
 
 You must recursively clone the submodules, which `--recursive` will do for you. When you pull new changes, be sure to run `git submodule update --init --recursive`.
@@ -21,11 +21,11 @@ In your clone of this repository, run:
 ```shell
 idf.py build
 ```
-> Note: the `sdkconfig` file already configures the project to target the ESP32-S2. You don't need to run `idf.py set-target esp32s2`, which will overwrite some of the necessary settings in `sdkconfig`.
+> Note: the `sdkconfig` file already configures the project to target the ESP32.
 
 ## Flash with ESP-IDF
 
-Connect the dev board to your computer with a USB cable. Find the name of the serial port device on your computer that corresponds to the dev board. See the [Flipper Zero guide] on how to connect to the dev board over USB or [Espressif's guide](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/establish-serial-connection.html) on how to find the port name.
+Connect the dev board to your computer with a USB cable. Find the name of the serial port device on your computer that corresponds to the dev board. See the [Espressif's guide](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/establish-serial-connection.html) on how to find the port name.
 
 Run:
 ```shell
@@ -41,6 +41,8 @@ idf.py -p <port> monitor
 
 You should not see errors in the logs if the firmware is installed and running correctly. 
 
-## Schematic
+# GPIP connections
 
-[Flipper Zero Wi-Fi Module Schematic](https://cdn.flipperzero.one/Flipper_Zero_WI-FI_Module_V1_Schematic.PDF)
+SWCLK is GPIO25
+
+SWDIO is GPIO26
