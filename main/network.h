@@ -8,6 +8,7 @@
  */
 #pragma once
 #include <stdbool.h>
+#include <esp_netif.h>
 #include "nvs-config.h"
 
 /**
@@ -27,3 +28,10 @@ WiFiMode network_get_mode(void);
  * @return uint32_t 
  */
 uint32_t network_get_ip(void);
+
+/**
+ * Get pointer to netif structure
+ * @return esp_netif_t*
+ */
+esp_netif_t *network_get_netif(void);
+

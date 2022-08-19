@@ -69,7 +69,7 @@ void app_main(void) {
     // i2c_scan();
 
     pins_init();
-    xTaskCreate(&gdb_application_thread, "gdb_thread", 4096, NULL, 5, NULL);
+    xTaskCreatePinnedToCore(&gdb_application_thread, "gdb_thread", 4096, NULL, 5, NULL, 1);
     led_set_blue(0);
     ESP_LOGI(TAG, "end");
 }

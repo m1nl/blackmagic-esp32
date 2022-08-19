@@ -33,15 +33,21 @@
 
 static WiFiMode wifi_mode = WiFiModeSTA;
 
+static esp_netif_t *wifi_netif;
+
 uint32_t network_get_ip(void) {
-    tcpip_adapter_ip_info_t ip_info;
+    esp_netif_ip_info_t ip_info;
     if(wifi_mode == WiFiModeSTA) {
-        tcpip_adapter_get_ip_info(TCPIP_ADAPTER_IF_STA, &ip_info);
+        esp_netif_get_ip_info(wifi_netif, &ip_info);
     } else {
-        tcpip_adapter_get_ip_info(TCPIP_ADAPTER_IF_AP, &ip_info);
+        esp_netif_get_ip_info(wifi_netif, &ip_info);
     }
 
     return ip_info.ip.addr;
+}
+
+esp_netif_t *network_get_netif(void) {
+    return wifi_netif;
 }
 
 static void
@@ -69,7 +75,7 @@ static void
 
 static void network_start_ap(mstring_t* ap_ssid, mstring_t* ap_pass) {
     ESP_LOGI(TAG, "init access point mode");
-    esp_netif_create_default_wifi_ap();
+    wifi_netif = esp_netif_create_default_wifi_ap();
 
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
@@ -118,7 +124,7 @@ static bool network_connect_ap(mstring_t* ap_ssid, mstring_t* ap_pass) {
     bool result = false;
 
     ESP_LOGI(TAG, "init connect to AP");
-    esp_netif_create_default_wifi_sta();
+    wifi_netif = esp_netif_create_default_wifi_sta();
 
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));

@@ -41,8 +41,10 @@ idf.py -p <port> monitor
 
 You should not see errors in the logs if the firmware is installed and running correctly. 
 
-# GPIP connections
+# GPIO connections
 
 SWCLK is GPIO25
 
 SWDIO is GPIO26
+
+Can be changed in file components/blackmagic/esp32-platform/platform.h

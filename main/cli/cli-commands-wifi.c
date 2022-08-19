@@ -165,11 +165,11 @@ void cli_wifi_sta_info(Cli* cli, mstring_t* args) {
 
 void cli_wifi_ip(Cli* cli, mstring_t* args) {
     wifi_mode_t mode;
-    tcpip_adapter_ip_info_t ip_info;
+    esp_netif_ip_info_t ip_info;
 
     if(esp_wifi_get_mode(&mode) == ESP_OK) {
         if(mode == WIFI_MODE_STA) {
-            if(tcpip_adapter_get_ip_info(TCPIP_ADAPTER_IF_STA, &ip_info) == ESP_OK) {
+            if(esp_netif_get_ip_info(network_get_netif(), &ip_info) == ESP_OK) {
                 cli_printf(
                     cli,
                     "ip:   %d.%d.%d.%d",
@@ -197,7 +197,7 @@ void cli_wifi_ip(Cli* cli, mstring_t* args) {
                 cli_write_str(cli, "FAIL");
             }
         } else if(mode == WIFI_MODE_APSTA) {
-            if(tcpip_adapter_get_ip_info(TCPIP_ADAPTER_IF_AP, &ip_info) == ESP_OK) {
+            if(esp_netif_get_ip_info(network_get_netif(), &ip_info) == ESP_OK) {
                 cli_printf(
                     cli,
                     "ip:   %d.%d.%d.%d",

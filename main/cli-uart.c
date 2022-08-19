@@ -45,7 +45,7 @@ void cli_uart_init() {
 
     uart_rx_stream = xStreamBufferCreate(CLI_UART_RX_BUF_SIZE * 4, 1);
 
-    xTaskCreate(cli_uart_rx_task, "cli_uart_rx", 4096, NULL, 5, NULL);
+    xTaskCreatePinnedToCore(cli_uart_rx_task, "cli_uart_rx", 4096, NULL, 5, NULL, 0);
 
     UartConfig config = {
         .uart_num = CLI_UART_PORT_NUM,
