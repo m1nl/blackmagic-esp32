@@ -11,9 +11,9 @@
 #include "network-http.h"
 #include "network-uart.h"
 #include "network-gdb.h"
-#include "factory-reset-service.h"
 #include "led.h"
 #include <gdb-glue.h>
+#include <platform.h>
 
 static const char* TAG = "main";
 
@@ -31,7 +31,7 @@ void gdb_application_thread(void* pvParameters) {
 void app_main(void) {
     ESP_LOGI(TAG, "start");
 
-    factory_reset_service_init();
+    platform_init();
     gdb_glue_init();
 
     led_init();
@@ -39,6 +39,7 @@ void app_main(void) {
 
     nvs_init();
     network_init();
+
     network_http_server_init();
     network_gdb_server_init();
 

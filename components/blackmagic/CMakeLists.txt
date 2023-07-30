@@ -44,10 +44,10 @@ set(BM_TARGETS
     ${BM_DIR}/src/target/sam4l.c
     ${BM_DIR}/src/target/stm32f1.c
     ${BM_DIR}/src/target/stm32h7.c
-    # ${BM_DIR}/src/target/swdptap_generic.c
+    #${BM_DIR}/src/target/swdptap_generic.c
     ${BM_DIR}/src/target/adiv5_swdp.c
     ${BM_DIR}/src/target/efm32.c
-    # ${BM_DIR}/src/target/jtagtap_generic.c
+    #${BM_DIR}/src/target/jtagtap_generic.c
     ${BM_DIR}/src/target/lpc11xx.c
     ${BM_DIR}/src/target/lpc43xx.c
     ${BM_DIR}/src/target/msp432.c
@@ -74,6 +74,7 @@ set(BM_INCLUDE
 set(BM_REQUIRES
     driver
     esp_timer
+    esp_hw_support
 )
 
 # Get the current working branch

@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <inttypes.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "general.h"
@@ -9,6 +10,7 @@
 #include <hal/gpio_ll.h>
 #include <esp_rom_gpio.h>
 #include <esp_timer.h>
+#include <esp_private/esp_clk.h>
 
 uint32_t swd_delay_cnt = 0;
 // static const char* TAG = "gdb-platform";
@@ -24,6 +26,7 @@ void __attribute__((always_inline)) platform_swdio_mode_float(void) {
 
 void __attribute__((always_inline)) platform_swdio_mode_drive(void) {
     // gpio_set_direction(SWDIO_PIN, GPIO_MODE_OUTPUT);
+    // gpio_set_pull_mode(SWDIO_PIN, GPIO_FLOATING);
 
     // Faster variant
     // Supports only gpio less than 32
@@ -70,6 +73,18 @@ int __attribute__((always_inline)) platform_gpio_get_level(int32_t gpio_num) {
 
 // init platform
 void platform_init() {
+    gpio_config_t io_conf;
+
+    io_conf.intr_type = GPIO_INTR_DISABLE;
+    io_conf.mode = GPIO_MODE_OUTPUT;
+
+    io_conf.pin_bit_mask = ((1 << SWCLK_PIN) | (1 << SWDIO_PIN));
+    io_conf.pull_down_en = 0;
+    io_conf.pull_up_en = 0;
+
+    gpio_config(&io_conf);
+
+    platform_max_frequency_set(SWD_DEFAULT_FREQUENCY);
 }
 
 // set reset target pin level
@@ -115,11 +130,21 @@ bool platform_timeout_is_expired(const platform_timeout_s* t) {
 
 // set interface freq
 void platform_max_frequency_set(uint32_t freq) {
+    uint32_t cpu_freq = esp_clk_cpu_freq();
+
+    if(freq < 50000) return;
+
+    int32_t cnt =
+        (cpu_freq - SWD_TOTAL_CYCLES * (int32_t)freq) / (SWD_CYCLES_PER_CLOCK * (int32_t)freq);
+
+    if(cnt < 0) cnt = 0;
+
+    swd_delay_cnt = cnt;
 }
 
 // get interface freq
 uint32_t platform_max_frequency_get(void) {
-    return 0;
+    return esp_clk_cpu_freq() / (swd_delay_cnt * SWD_CYCLES_PER_CLOCK + SWD_TOTAL_CYCLES);
 }
 
 void platform_nrst_set_val(bool assert) {

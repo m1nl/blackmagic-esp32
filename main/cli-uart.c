@@ -49,7 +49,7 @@ void cli_uart_init() {
     ESP_ERROR_CHECK(uart_set_pin(CLI_UART_PORT_NUM, CLI_UART_TXD_PIN, CLI_UART_RXD_PIN, -1, -1));
     ESP_ERROR_CHECK(uart_param_config(CLI_UART_PORT_NUM, &uart_config));
 
-    xTaskCreate(cli_uart_rx_task, "usb_uart_rx", 4096, NULL, 5, NULL);
+    xTaskCreatePinnedToCore(cli_uart_rx_task, "usb_uart_rx", 4096, NULL, 5, NULL, 0);
 
     cli_force_motd(cli_uart);
 }

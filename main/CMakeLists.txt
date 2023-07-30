@@ -16,7 +16,6 @@ set(SOURCES
     "cli/cli-commands-config.c"
     "cli/cli-commands-device-info.c"
     "cli/cli-args.c"
-    "factory-reset-service.c"
 )
 
 set(INCLUDES 

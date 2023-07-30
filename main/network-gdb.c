@@ -166,5 +166,6 @@ void network_gdb_server_init(void) {
     network_gdb.socket_id = -1;
 
     esp_wifi_set_ps(WIFI_PS_NONE);
-    xTaskCreate(network_gdb_server_task, "network_gdb_server", 4096, (void*)AF_INET, 5, NULL);
+    xTaskCreatePinnedToCore(
+        network_gdb_server_task, "network_gdb_server", 4096, (void*)AF_INET, 5, NULL, 0);
 }

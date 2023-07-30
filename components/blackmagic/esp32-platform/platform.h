@@ -1,8 +1,10 @@
 #pragma once
 #include <timing.h>
+#include <esp_log.h>
 
 extern uint32_t swd_delay_cnt;
 
+void platform_init(void);
 void platform_swdio_mode_float(void);
 void platform_swdio_mode_drive(void);
 void platform_gpio_set_level(int32_t gpio_num, uint32_t value);
@@ -14,7 +16,7 @@ void led_set_red(uint8_t value);
 void led_set_green(uint8_t value);
 void led_set_blue(uint8_t value);
 
-#define PLATFORM_IDENT "ESP32-S2"
+#define PLATFORM_IDENT "ESP32"
 
 #define NO_USB_PLEASE
 
@@ -64,3 +66,7 @@ void led_set_blue(uint8_t value);
     do {                             \
         platform_swdio_mode_drive(); \
     } while(0)
+
+#define SWD_CYCLES_PER_CLOCK 19L
+#define SWD_TOTAL_CYCLES 190L
+#define SWD_DEFAULT_FREQUENCY 1000000L
